@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Games On Demand — PAX West 2026</title>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --fg: #1a1a1a;
+      --muted: #666;
+      --accent: #2d5a27;
+      --accent-light: #e8f0e6;
+      --card-bg: #fff;
+      --border: #ddd;
+      --slot-open: #f0f7ee;
+      --slot-filled: #fff;
+      --day-fri: #2d5a27;
+      --day-sat: #1a6b8a;
+      --day-sun: #8a4a1a;
+      --day-mon: #6b1a6b;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --fg: #e8e8e8;
+        --muted: #999;
+        --accent: #6fbf67;
+        --accent-light: #2a3a28;
+        --card-bg: #242424;
+        --border: #3a3a3a;
+        --slot-open: #2a3a28;
+        --slot-filled: #242424;
+        --day-fri: #6fbf67;
+        --day-sat: #5ab8d8;
+        --day-sun: #d89a5a;
+        --day-mon: #c85ac8;
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.5;
+    }
+
+    header {
+      background: var(--accent);
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      margin-top: 0.25rem;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .location {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .about {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .about h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .about p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .day-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .day-tab {
+      padding: 0.5rem 1.25rem;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      background: var(--card-bg);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.15s;
+    }
+
+    .day-tab:hover { border-color: var(--accent); }
+
+    .day-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .schedule-day { display: none; }
+    .schedule-day.active { display: block; }
+
+    .time-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .time-header {
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--accent-light);
+    }
+
+    .session {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .session:last-child { border-bottom: none; }
+
+    .session-info { flex: 1; }
+
+    .session-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .session-gm {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .session-system {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .session-meta {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .session-duration {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .session-seats {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .open-slot {
+      padding: 0.75rem 1rem;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.9rem;
+      background: var(--slot-open);
+    }
+
+    .no-sessions {
+      padding: 1.5rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .contact {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .contact h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .contact-links a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contact-links a:hover { text-decoration: underline; }
+
+    .contact-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5rem; }
+      header p { font-size: 0.95rem; }
+      .day-tabs { gap: 0.25rem; }
+      .day-tab { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+      .session { flex-direction: column; gap: 0.25rem; }
+      .session-meta { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Games On Demand</h1>
+  <p>PAX West 2026</p>
+  <div class="location">Summit Level 2 &bull; September 4&ndash;7</div>
+</header>
+
+<main>
+  <div class="about">
+    <h2>What is Games On Demand?</h2>
+    <p>
+      Drop in and play indie tabletop RPGs with experienced GMs. No sign-up required &mdash;
+      just show up, pick a game, and play. Sessions run 2 or 4 hours throughout the con.
+    </p>
+  </div>
+
+  <div id="schedule"></div>
+
+  <div class="contact">
+    <h2>Get in Touch</h2>
+    <div class="contact-links">
+      <a href="mailto:REPLACE@example.com">
+        <span class="contact-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
+        </span>
+        REPLACE@example.com
+      </a>
+      <a href="https://discord.gg/REPLACE" target="_blank" rel="noopener">
+        <span class="contact-icon">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path d="M15.54 3.8a13.4 13.4 0 00-3.32-1.03.05.05 0 00-.05.02c-.14.25-.3.58-.41.84a12.4 12.4 0 00-3.72 0 8.7 8.7 0 00-.42-.84.05.05 0 00-.05-.02A13.36 13.36 0 004.2 3.8a.05.05 0 00-.02.02C1.83 7.35 1.17 10.8 1.5 14.21a.06.06 0 00.02.04 13.5 13.5 0 004.07 2.06.05.05 0 00.06-.02c.31-.43.59-.88.83-1.36a.05.05 0 00-.03-.07 8.9 8.9 0 01-1.27-.6.05.05 0 01-.01-.08l.25-.2a.05.05 0 01.05-.01c2.66 1.22 5.54 1.22 8.17 0a.05.05 0 01.05 0l.25.21a.05.05 0 010 .08c-.4.24-.83.44-1.28.6a.05.05 0 00-.02.08c.24.48.53.93.83 1.35a.05.05 0 00.06.02 13.47 13.47 0 004.08-2.06.05.05 0 00.02-.04c.39-4.04-.66-7.45-2.77-10.53a.04.04 0 00-.02-.02zM7.01 12.21c-.91 0-1.66-.84-1.66-1.87s.73-1.87 1.66-1.87c.94 0 1.68.85 1.66 1.87 0 1.03-.73 1.87-1.66 1.87zm6.14 0c-.91 0-1.66-.84-1.66-1.87s.73-1.87 1.66-1.87c.94 0 1.68.85 1.66 1.87 0 1.03-.73 1.87-1.66 1.87z"/></svg>
+        </span>
+        Join our Discord
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Games On Demand &bull; PAX West 2026
+</footer>
+
+<script>
+// ============================================================
+// SCHEDULE DATA — edit this to update the site
+// ============================================================
+const SCHEDULE = {
+  "Friday, Sep 4": [
+    {
+      time: "10:00 AM – 12:00 PM",
+      sessions: [
+        // Example session — replace with real data:
+        // { title: "Blades in the Dark", system: "Forged in the Dark", gm: "Jane Doe", duration: "2hr", seats: "3–5" },
+      ]
+    },
+    {
+      time: "12:00 PM – 2:00 PM",
+      sessions: []
+    },
+    {
+      time: "2:00 PM – 4:00 PM",
+      sessions: []
+    },
+    {
+      time: "4:00 PM – 6:00 PM",
+      sessions: []
+    }
+  ],
+  "Saturday, Sep 5": [
+    { time: "10:00 AM – 12:00 PM", sessions: [] },
+    { time: "12:00 PM – 2:00 PM", sessions: [] },
+    { time: "2:00 PM – 4:00 PM", sessions: [] },
+    { time: "4:00 PM – 6:00 PM", sessions: [] }
+  ],
+  "Sunday, Sep 6": [
+    { time: "10:00 AM – 12:00 PM", sessions: [] },
+    { time: "12:00 PM – 2:00 PM", sessions: [] },
+    { time: "2:00 PM – 4:00 PM", sessions: [] },
+    { time: "4:00 PM – 6:00 PM", sessions: [] }
+  ],
+  "Monday, Sep 7": [
+    { time: "10:00 AM – 12:00 PM", sessions: [] },
+    { time: "12:00 PM – 2:00 PM", sessions: [] },
+    { time: "2:00 PM – 4:00 PM", sessions: [] }
+  ]
+};
+// ============================================================
+
+function renderSchedule() {
+  const container = document.getElementById("schedule");
+  const days = Object.keys(SCHEDULE);
+  const colors = ["var(--day-fri)", "var(--day-sat)", "var(--day-sun)", "var(--day-mon)"];
+
+  let tabsHtml = '<div class="day-tabs">';
+  days.forEach((day, i) => {
+    const short = day.split(",")[0];
+    tabsHtml += `<button class="day-tab${i === 0 ? " active" : ""}" data-day="${i}">${short}<span class="day-date"> ${day.split(", ")[1]}</span></button>`;
+  });
+  tabsHtml += "</div>";
+
+  let daysHtml = "";
+  days.forEach((day, i) => {
+    daysHtml += `<div class="schedule-day${i === 0 ? " active" : ""}" data-day="${i}">`;
+    const blocks = SCHEDULE[day];
+    blocks.forEach(block => {
+      daysHtml += `<div class="time-block">`;
+      daysHtml += `<div class="time-header">${block.time}</div>`;
+      if (block.sessions.length === 0) {
+        daysHtml += `<div class="open-slot">Open — check back for updates</div>`;
+      } else {
+        block.sessions.forEach(s => {
+          daysHtml += `
+            <div class="session">
+              <div class="session-info">
+                <div class="session-title">${s.title}</div>
+                ${s.system ? `<div class="session-system">${s.system}</div>` : ""}
+                ${s.gm ? `<div class="session-gm">GM: ${s.gm}</div>` : ""}
+              </div>
+              <div class="session-meta">
+                ${s.duration ? `<div class="session-duration">${s.duration}</div>` : ""}
+                ${s.seats ? `<div class="session-seats">${s.seats} players</div>` : ""}
+              </div>
+            </div>`;
+        });
+      }
+      daysHtml += `</div>`;
+    });
+    daysHtml += `</div>`;
+  });
+
+  container.innerHTML = tabsHtml + daysHtml;
+
+  container.querySelectorAll(".day-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      container.querySelectorAll(".day-tab").forEach(t => t.classList.remove("active"));
+      container.querySelectorAll(".schedule-day").forEach(d => d.classList.remove("active"));
+      tab.classList.add("active");
+      container.querySelector(`.schedule-day[data-day="${tab.dataset.day}"]`).classList.add("active");
+    });
+  });
+}
+
+renderSchedule();
+</script>
+
+</body>
+</html>
