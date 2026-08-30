@@ -194,6 +194,17 @@
       background: var(--slot-open);
     }
 
+    .day-notice {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
     .no-sessions {
       padding: 1.5rem 1rem;
       text-align: center;
@@ -303,44 +314,61 @@
 // SCHEDULE DATA — edit this to update the site
 // ============================================================
 const SCHEDULE = {
-  "Friday, Sep 4": [
-    {
-      time: "10:00 AM – 12:00 PM",
-      sessions: [
-        // Example session — replace with real data:
-        // { title: "Blades in the Dark", system: "Forged in the Dark", gm: "Jane Doe", duration: "2hr", seats: "3–5" },
-      ]
-    },
-    {
-      time: "12:00 PM – 2:00 PM",
-      sessions: []
-    },
-    {
-      time: "2:00 PM – 4:00 PM",
-      sessions: []
-    },
-    {
-      time: "4:00 PM – 6:00 PM",
-      sessions: []
-    }
-  ],
-  "Saturday, Sep 5": [
-    { time: "10:00 AM – 12:00 PM", sessions: [] },
-    { time: "12:00 PM – 2:00 PM", sessions: [] },
-    { time: "2:00 PM – 4:00 PM", sessions: [] },
-    { time: "4:00 PM – 6:00 PM", sessions: [] }
-  ],
-  "Sunday, Sep 6": [
-    { time: "10:00 AM – 12:00 PM", sessions: [] },
-    { time: "12:00 PM – 2:00 PM", sessions: [] },
-    { time: "2:00 PM – 4:00 PM", sessions: [] },
-    { time: "4:00 PM – 6:00 PM", sessions: [] }
-  ],
-  "Monday, Sep 7": [
-    { time: "10:00 AM – 12:00 PM", sessions: [] },
-    { time: "12:00 PM – 2:00 PM", sessions: [] },
-    { time: "2:00 PM – 4:00 PM", sessions: [] }
-  ]
+  "Friday, Sep 4": {
+    notice: "Games start at 6 PM on Friday!",
+    blocks: [
+      { time: "6:00 PM – 8:00 PM", sessions: [] },
+      { time: "7:00 PM – 9:00 PM", sessions: [] },
+      { time: "8:00 PM – 10:00 PM", sessions: [] },
+      { time: "9:00 PM – 11:00 PM", sessions: [] },
+      { time: "10:00 PM – 12:00 AM", sessions: [] }
+    ]
+  },
+  "Saturday, Sep 5": {
+    blocks: [
+      { time: "10:00 AM – 12:00 PM", sessions: [] },
+      { time: "11:00 AM – 1:00 PM", sessions: [] },
+      { time: "12:00 PM – 2:00 PM", sessions: [] },
+      { time: "1:00 PM – 3:00 PM", sessions: [] },
+      { time: "2:00 PM – 4:00 PM", sessions: [] },
+      { time: "3:00 PM – 5:00 PM", sessions: [] },
+      { time: "4:00 PM – 6:00 PM", sessions: [] },
+      { time: "5:00 PM – 7:00 PM", sessions: [] },
+      { time: "6:00 PM – 8:00 PM", sessions: [] },
+      { time: "7:00 PM – 9:00 PM", sessions: [] },
+      { time: "8:00 PM – 10:00 PM", sessions: [] },
+      { time: "9:00 PM – 11:00 PM", sessions: [] },
+      { time: "10:00 PM – 12:00 AM", sessions: [] }
+    ]
+  },
+  "Sunday, Sep 6": {
+    blocks: [
+      { time: "10:00 AM – 12:00 PM", sessions: [] },
+      { time: "11:00 AM – 1:00 PM", sessions: [] },
+      { time: "12:00 PM – 2:00 PM", sessions: [] },
+      { time: "1:00 PM – 3:00 PM", sessions: [] },
+      { time: "2:00 PM – 4:00 PM", sessions: [] },
+      { time: "3:00 PM – 5:00 PM", sessions: [] },
+      { time: "4:00 PM – 6:00 PM", sessions: [] },
+      { time: "5:00 PM – 7:00 PM", sessions: [] },
+      { time: "6:00 PM – 8:00 PM", sessions: [] },
+      { time: "7:00 PM – 9:00 PM", sessions: [] },
+      { time: "8:00 PM – 10:00 PM", sessions: [] },
+      { time: "9:00 PM – 11:00 PM", sessions: [] },
+      { time: "10:00 PM – 12:00 AM", sessions: [] }
+    ]
+  },
+  "Monday, Sep 7": {
+    blocks: [
+      { time: "10:00 AM – 12:00 PM", sessions: [] },
+      { time: "11:00 AM – 1:00 PM", sessions: [] },
+      { time: "12:00 PM – 2:00 PM", sessions: [] },
+      { time: "1:00 PM – 3:00 PM", sessions: [] },
+      { time: "2:00 PM – 4:00 PM", sessions: [] },
+      { time: "3:00 PM – 5:00 PM", sessions: [] },
+      { time: "4:00 PM – 6:00 PM", sessions: [] }
+    ]
+  }
 };
 // ============================================================
 
@@ -358,8 +386,12 @@ function renderSchedule() {
 
   let daysHtml = "";
   days.forEach((day, i) => {
+    const dayData = SCHEDULE[day];
+    const blocks = dayData.blocks;
     daysHtml += `<div class="schedule-day${i === 0 ? " active" : ""}" data-day="${i}">`;
-    const blocks = SCHEDULE[day];
+    if (dayData.notice) {
+      daysHtml += `<div class="day-notice">${dayData.notice}</div>`;
+    }
     blocks.forEach(block => {
       daysHtml += `<div class="time-block">`;
       daysHtml += `<div class="time-header">${block.time}</div>`;
