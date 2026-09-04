@@ -186,13 +186,32 @@
       font-weight: 600;
     }
 
-    .game-list { list-style: none; margin: 0.15rem 0 0; padding: 0; }
-    .game-list li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; padding: 0.1rem 0; }
+    .game-list { margin: 0.15rem 0 0; }
+    .game { border-top: 1px solid var(--border); }
+    .game:first-child { border-top: none; }
+    .game-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+      min-height: 44px; padding: 0.35rem 0; cursor: pointer; list-style: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .game-row::-webkit-details-marker { display: none; }
+    details.game > summary:hover .game-title { color: var(--accent); }
     .game-title { font-weight: 600; font-size: 0.95rem; }
     .game-age {
       font-size: 0.7rem; font-weight: 600; color: var(--accent);
       border: 1px solid var(--accent); border-radius: 4px; padding: 0 0.3rem;
     }
+    .chev {
+      margin-left: auto; width: 0.55rem; height: 0.55rem; flex-shrink: 0;
+      border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+      transform: rotate(45deg); transition: transform 0.15s;
+    }
+    details.game[open] > summary .chev { transform: rotate(-135deg); }
+    .game-pitch {
+      padding: 0.1rem 0 0.75rem; font-size: 0.9rem; line-height: 1.5; color: var(--fg);
+      max-width: 40rem;
+    }
+    .game-pitch p + p { margin-top: 0.5rem; }
     .session-note { font-size: 0.8rem; color: var(--muted); font-style: italic; margin-top: 0.25rem; }
 
     .on-demand {
@@ -205,8 +224,7 @@
     .on-demand h2 { font-size: 1.1rem; margin-bottom: 0.5rem; }
     .on-demand > p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
     .demand-card { border-top: 1px solid var(--border); padding: 0.75rem 0; }
-    .demand-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
-    .demand-pitch { font-size: 0.85rem; margin-top: 0.35rem; line-height: 1.4; }
+    .demand-card .session-gm { margin-top: -0.25rem; padding-bottom: 0.25rem; }
 
     .open-slot {
       padding: 0.75rem 1rem;
@@ -325,8 +343,7 @@
     <h2>Available on demand</h2>
     <p>
       These longer games aren't on the fixed schedule. Ask at the desk and we'll set one up
-      at a time that works for you, subject to GM availability. 2-hour games run only at
-      their scheduled times.
+      at a time that works for you, subject to GM availability.
     </p>
     <div id="on-demand-list"></div>
   </div>
@@ -374,22 +391,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -400,7 +421,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "Can extend to a 4-hour session if the table wants"
@@ -416,22 +438,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -442,7 +468,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "May already be running as an extended 4-hour game — ask at the desk"
@@ -463,7 +490,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "Can extend to a 4-hour session if the table wants"
@@ -479,12 +507,14 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Root RPG",
                   "age": "13+",
-                  "system": "PbtA"
+                  "system": "PbtA",
+                  "pitch": "Creatures of the woodlands, explore, fight and cajole their way between clearings. Wars erupt between factors as old ruins are reclaimed by the wild. \n(Optional) Featuring the homebrew magic supplement, including new Playbooks, Moves and Equipment."
                 },
                 {
                   "title": "Kobolds Ate my Baby",
                   "age": "13+",
-                  "system": "Beer and Pretzels"
+                  "system": "Beer and Pretzels",
+                  "pitch": "You are a Kobold, you are Hungry. Your goal is to find an eat a human baby. (But not fr though)"
                 }
               ],
               "note": ""
@@ -495,7 +525,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "May already be running as an extended 4-hour game — ask at the desk"
@@ -511,7 +542,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Cinematic\nTactical\nHeroic\nFantasy\nDraw Steel is an action-oriented fantasy RPG where heroes protect the people from tyranny. Characters build heroic resources over the course of each battle to become more powerful and interesting every round with robust rules for cinematic montages and negotiation.\n(This game can run for 2 or 4 hours)"
                 }
               ],
               "note": ""
@@ -527,17 +559,20 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Grandma's Pleasure RPG",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Grandma's Pleasure, everyone's favorite rediscovered canceled sitcom from the early 90's! It's the story of a sassy, smoking, drinking Grandma, Dad (her undersexed widower son), her two grandkids Cory and Marcus, and all their adventures living and growing together. \n\nNow you can bring their wacky hijinks home to your very own living room!"
                 },
                 {
                   "title": "Zhenya's Wonder Tales",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Enter a dark world of Slavic- and Baltic-inspired fairy stories. Your perfectly innocent and kind-hearted host, Zhenya, will guide you. Fall in love with a bear. Bow before the King of the Snakes. Marry a shape-changing fairy —or fight one to the death."
                 },
                 {
                   "title": "Cindr",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Date dragons, without getting burned! Cindr is the new dating cantrip that lets non dragons go on dates with dragons. In an anachronistic fantasy world, push your luck on dates and see if you'll be the first to find love!"
                 }
               ],
               "note": ""
@@ -548,7 +583,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "Can extend to a 4-hour session if the table wants"
@@ -564,22 +600,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -590,7 +630,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": "May already be running as an extended 4-hour game — ask at the desk"
@@ -606,17 +647,20 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Grandma's Pleasure RPG",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Grandma's Pleasure, everyone's favorite rediscovered canceled sitcom from the early 90's! It's the story of a sassy, smoking, drinking Grandma, Dad (her undersexed widower son), her two grandkids Cory and Marcus, and all their adventures living and growing together. \n\nNow you can bring their wacky hijinks home to your very own living room!"
                 },
                 {
                   "title": "Zhenya's Wonder Tales",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Enter a dark world of Slavic- and Baltic-inspired fairy stories. Your perfectly innocent and kind-hearted host, Zhenya, will guide you. Fall in love with a bear. Bow before the King of the Snakes. Marry a shape-changing fairy —or fight one to the death."
                 },
                 {
                   "title": "Cindr",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Date dragons, without getting burned! Cindr is the new dating cantrip that lets non dragons go on dates with dragons. In an anachronistic fantasy world, push your luck on dates and see if you'll be the first to find love!"
                 }
               ],
               "note": ""
@@ -627,7 +671,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Cinematic\nTactical\nHeroic\nFantasy\nDraw Steel is an action-oriented fantasy RPG where heroes protect the people from tyranny. Characters build heroic resources over the course of each battle to become more powerful and interesting every round with robust rules for cinematic montages and negotiation.\n(This game can run for 2 or 4 hours)"
                 }
               ],
               "note": ""
@@ -647,7 +692,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy.\n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent. In this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
               "note": ""
@@ -663,22 +709,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -694,17 +744,20 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Grandma's Pleasure RPG",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Grandma's Pleasure, everyone's favorite rediscovered canceled sitcom from the early 90's! It's the story of a sassy, smoking, drinking Grandma, Dad (her undersexed widower son), her two grandkids Cory and Marcus, and all their adventures living and growing together. \n\nNow you can bring their wacky hijinks home to your very own living room!"
                 },
                 {
                   "title": "Zhenya's Wonder Tales",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Enter a dark world of Slavic- and Baltic-inspired fairy stories. Your perfectly innocent and kind-hearted host, Zhenya, will guide you. Fall in love with a bear. Bow before the King of the Snakes. Marry a shape-changing fairy —or fight one to the death."
                 },
                 {
                   "title": "Cindr",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Date dragons, without getting burned! Cindr is the new dating cantrip that lets non dragons go on dates with dragons. In an anachronistic fantasy world, push your luck on dates and see if you'll be the first to find love!"
                 }
               ],
               "note": ""
@@ -720,12 +773,14 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Root RPG",
                   "age": "13+",
-                  "system": "PbtA"
+                  "system": "PbtA",
+                  "pitch": "Creatures of the woodlands, explore, fight and cajole their way between clearings. Wars erupt between factors as old ruins are reclaimed by the wild. \n(Optional) Featuring the homebrew magic supplement, including new Playbooks, Moves and Equipment."
                 },
                 {
                   "title": "Kobolds Ate my Baby",
                   "age": "13+",
-                  "system": "Beer and Pretzels"
+                  "system": "Beer and Pretzels",
+                  "pitch": "You are a Kobold, you are Hungry. Your goal is to find an eat a human baby. (But not fr though)"
                 }
               ],
               "note": ""
@@ -741,17 +796,20 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Grandma's Pleasure RPG",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Grandma's Pleasure, everyone's favorite rediscovered canceled sitcom from the early 90's! It's the story of a sassy, smoking, drinking Grandma, Dad (her undersexed widower son), her two grandkids Cory and Marcus, and all their adventures living and growing together. \n\nNow you can bring their wacky hijinks home to your very own living room!"
                 },
                 {
                   "title": "Zhenya's Wonder Tales",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Enter a dark world of Slavic- and Baltic-inspired fairy stories. Your perfectly innocent and kind-hearted host, Zhenya, will guide you. Fall in love with a bear. Bow before the King of the Snakes. Marry a shape-changing fairy —or fight one to the death."
                 },
                 {
                   "title": "Cindr",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Date dragons, without getting burned! Cindr is the new dating cantrip that lets non dragons go on dates with dragons. In an anachronistic fantasy world, push your luck on dates and see if you'll be the first to find love!"
                 }
               ],
               "note": ""
@@ -767,7 +825,8 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Draw Steel",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Cinematic\nTactical\nHeroic\nFantasy\nDraw Steel is an action-oriented fantasy RPG where heroes protect the people from tyranny. Characters build heroic resources over the course of each battle to become more powerful and interesting every round with robust rules for cinematic montages and negotiation.\n(This game can run for 2 or 4 hours)"
                 }
               ],
               "note": ""
@@ -787,22 +846,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -818,22 +881,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -849,22 +916,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -880,22 +951,26 @@ const SCHEDULE_DATA = {
                 {
                   "title": "Special Patrol Group: Interceptor",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "A fast-paced RPG designed by Luke Crane (Burning Wheel) for 2-3 players in 60 to 90 minutes. As an officer in the Special Patrol Group, your patrol sectors stretch from Naarm to the borders of the Prohibited Zone. Over the past few years, your job has shifted from issuing speeding tickets to chasing down gangs of glory riders preying on the vulnerable."
                 },
                 {
                   "title": "BFF! – Best Friends Forever",
                   "age": "All ages",
-                  "system": ""
+                  "system": "",
+                  "pitch": "BFF! is a heartwarming TTRPG for 2-6 players. Take on the roles of a group of tween girls hanging out, having adventures, and exploring how friendships grow and change. With its beautiful artwork, clever card prompts, and emphasis on collaboration. There’s no game master and zero prep time, so you can start playing within minutes of opening the box"
                 },
                 {
                   "title": "Desperation",
                   "age": "18+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "Desperation is two small RPGs for 1-5 players, built on the same dark tone and mechanics, that are truly pick-up-and-play experiences. Survival horror, often without the survival.  These dark, lyrical games, Dead House and The Isabel, are steeped in actual history and tell the stories of people pushed far past their limits."
                 },
                 {
                   "title": "Inspectres",
                   "age": "13+",
-                  "system": ""
+                  "system": "",
+                  "pitch": "InSpectres is a humorous ghost hunting/reality tv show RPG for 3-5 player in which the YOU create the story. With successful dice rolls, the players can dictate the outcome while failures allow the GM to dole out punishment. You’ll use your InSpectres franchise to boost your dice and can always have a direct to camera confessional to change another players character."
                 }
               ],
               "note": ""
@@ -977,6 +1052,28 @@ const SCHEDULE_DATA = {
 const SCHEDULE = SCHEDULE_DATA.days;
 // ============================================================
 
+function pitchHtml(p) {
+  return (p || "").split(/\n+/).map(x => x.trim()).filter(Boolean).map(x => `<p>${x}</p>`).join("");
+}
+function gameDetails(g, extra) {
+  const meta = [
+    g.age ? `<span class="game-age">${g.age}</span>` : "",
+    g.system ? `<span class="session-system">${g.system}</span>` : "",
+    extra || ""
+  ].join("");
+  if (!g.pitch) {
+    return `<div class="game"><div class="game-row"><span class="game-title">${g.title}</span>${meta}</div></div>`;
+  }
+  return `
+    <details class="game">
+      <summary class="game-row">
+        <span class="game-title">${g.title}</span>${meta}
+        <span class="chev" aria-hidden="true"></span>
+      </summary>
+      <div class="game-pitch">${pitchHtml(g.pitch)}</div>
+    </details>`;
+}
+
 function renderSchedule() {
   const container = document.getElementById("schedule");
   const days = Object.keys(SCHEDULE);
@@ -1004,14 +1101,12 @@ function renderSchedule() {
         daysHtml += `<div class="open-slot">Open — ask at the desk</div>`;
       } else {
         block.sessions.forEach(s => {
-          const games = (s.games || []).map(g =>
-            `<li><span class="game-title">${g.title}</span>${g.age ? `<span class="game-age">${g.age}</span>` : ""}${g.system ? `<span class="session-system">${g.system}</span>` : ""}</li>`
-          ).join("");
+          const games = (s.games || []).map(g => gameDetails(g)).join("");
           daysHtml += `
             <div class="session">
               <div class="session-info">
                 <div class="session-gm">GM: ${s.gm}${(s.games || []).length > 1 ? " &mdash; players choose one:" : ""}</div>
-                <ul class="game-list">${games}</ul>
+                <div class="game-list">${games}</div>
                 ${s.note ? `<div class="session-note">${s.note}</div>` : ""}
               </div>
               <div class="session-meta">
@@ -1045,14 +1140,8 @@ function renderOnDemand() {
   if (!items.length) { el.innerHTML = '<div class="no-sessions">Check back soon.</div>'; return; }
   el.innerHTML = items.map(g => `
     <div class="demand-card">
-      <div class="demand-head">
-        <span class="game-title">${g.title}</span>
-        ${g.age ? `<span class="game-age">${g.age}</span>` : ""}
-        <span class="session-duration">${g.duration}</span>
-      </div>
-      ${g.system ? `<div class="session-system">${g.system}</div>` : ""}
+      ${gameDetails(g, `<span class="session-duration">${g.duration}</span>`)}
       <div class="session-gm">GM: ${g.gm}</div>
-      ${g.pitch ? `<p class="demand-pitch">${g.pitch.replace(/\n+/g, " ")}</p>` : ""}
     </div>`).join("");
 }
 renderOnDemand();
