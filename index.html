@@ -297,9 +297,61 @@
       color: var(--muted);
     }
 
+    .header-logo {
+      max-width: 380px;
+      margin: 0 auto 0.75rem;
+    }
+    .header-logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .late-night .time-header {
+      background: var(--accent);
+      color: #fff;
+    }
+    .late-night-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.1rem;
+      opacity: 0.85;
+    }
+
+    .game-cw {
+      border-left: 3px solid var(--accent);
+      padding: 0.4rem 0.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: var(--muted);
+      background: var(--accent-light);
+      border-radius: 0 4px 4px 0;
+    }
+    .game-cw-label {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--fg);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .cw-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #c44;
+      border: 1px solid #c44;
+      border-radius: 4px;
+      padding: 0 0.3rem;
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 1.5rem; }
       header p { font-size: 0.95rem; }
+      .header-logo { max-width: 260px; }
       .day-tabs { gap: 0.25rem; }
       .day-tab { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
       .session { flex-direction: column; gap: 0.25rem; }
@@ -310,7 +362,9 @@
 <body>
 
 <header>
-  <h1>Games On Demand</h1>
+  <div class="header-logo">
+    <img src="banner.svg" alt="Games On Demand">
+  </div>
   <p>PAX West 2026</p>
   <div class="location">Summit Level EX &bull; September 4&ndash;7</div>
 </header>
@@ -537,16 +591,16 @@ const SCHEDULE_DATA = {
           "time": "2:00 PM – 4:00 PM",
           "sessions": [
             {
-              "gm": "Sam",
+              "gm": "Nick",
               "games": [
                 {
                   "title": "Draw Steel",
                   "age": "13+",
                   "system": "",
-                  "pitch": "Cinematic\nTactical\nHeroic\nFantasy\nDraw Steel is an action-oriented fantasy RPG where heroes protect the people from tyranny. Characters build heroic resources over the course of each battle to become more powerful and interesting every round with robust rules for cinematic montages and negotiation.\n(This game can run for 2 or 4 hours)"
+                  "pitch": "Tactical. Heroic. Cinematic. Fantasy. \n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent.\nIn this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
-              "note": ""
+              "note": "Can extend to a 4-hour session if the table wants"
             }
           ]
         },
@@ -587,7 +641,7 @@ const SCHEDULE_DATA = {
                   "pitch": "Tactical. Heroic. Cinematic. Fantasy. \n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent.\nIn this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
                 }
               ],
-              "note": "Can extend to a 4-hour session if the table wants"
+              "note": "May already be running as an extended 4-hour game — ask at the desk"
             }
           ]
         },
@@ -623,18 +677,6 @@ const SCHEDULE_DATA = {
                 }
               ],
               "note": ""
-            },
-            {
-              "gm": "Nick",
-              "games": [
-                {
-                  "title": "Draw Steel",
-                  "age": "13+",
-                  "system": "",
-                  "pitch": "Tactical. Heroic. Cinematic. Fantasy. \n\nDraw Steel is a crunchy, turn-based game about fighting evil and making a difference against impossible danger. It is everything I wish 5e would be. Draw Steel is excellent.\nIn this one-shot, play as burgeoning heroes struggling to do what they can in the face of an apocalyptic enemy. Fight back where you can, save who can be saved, and get out alive."
-                }
-              ],
-              "note": "May already be running as an extended 4-hour game — ask at the desk"
             }
           ]
         },
@@ -673,6 +715,25 @@ const SCHEDULE_DATA = {
                   "age": "13+",
                   "system": "",
                   "pitch": "Cinematic\nTactical\nHeroic\nFantasy\nDraw Steel is an action-oriented fantasy RPG where heroes protect the people from tyranny. Characters build heroic resources over the course of each battle to become more powerful and interesting every round with robust rules for cinematic montages and negotiation.\n(This game can run for 2 or 4 hours)"
+                }
+              ],
+              "note": ""
+            }
+          ]
+        },
+        {
+          "time": "10:00 PM – 12:00 AM",
+          "special": "Late Night Special",
+          "sessions": [
+            {
+              "gm": "Thomas",
+              "games": [
+                {
+                  "title": "Forgery",
+                  "age": "18+",
+                  "system": "",
+                  "cw": "Divorce, manipulative romantic or friendly relationships, being involved in a crime, paranormal horror, alcohol and drug use, crab mentality, professional jealousy, lateral violence, gore, self mutilation, body horror, sex (bondage related, demon-fucking), obsessive thoughts towards your character and other forms of parasocial relationships.",
+                  "pitch": "It's 2023 in New York City. You graduated from art school with dead prospects and too much talent. Nobody wants to hire a painter who doesn't have extraordinarily rich parents. The art gallery scene in New York City only takes the wealthiest, most well-connected people.\n\nUnfortunately, you're a nobody. Sure, you aced all your classes and you have a great eye. But it's hard to make it into Art Forum magazine. Instead, you've found contract work in replicating famous paintings and selling them online, which is actually legal as long as you specify it's a reproduction. The pay hasn't been great...until you receive your latest commission.\n\nForgery is a story of a down-on-her-luck art forger named Tempest, who receives a new commission to recreate a painting that they discover is cursed over time. It is a solo tabletop roleplaying game where the player (you) will be coloring in a paint-by-numbers image. The colors that you choose determine the outcome to the story.\n\nTo suit group gameplay, players will take turns making decisions. Each player will have their own image to color in."
                 }
               ],
               "note": ""
@@ -1058,10 +1119,12 @@ function pitchHtml(p) {
 function gameDetails(g, extra) {
   const meta = [
     g.age ? `<span class="game-age">${g.age}</span>` : "",
+    g.cw ? `<span class="cw-badge">CW</span>` : "",
     g.system ? `<span class="session-system">${g.system}</span>` : "",
     extra || ""
   ].join("");
-  if (!g.pitch) {
+  const cwHtml = g.cw ? `<div class="game-cw"><span class="game-cw-label">Content Warnings</span>${g.cw}</div>` : "";
+  if (!g.pitch && !g.cw) {
     return `<div class="game"><div class="game-row"><span class="game-title">${g.title}</span>${meta}</div></div>`;
   }
   return `
@@ -1070,6 +1133,7 @@ function gameDetails(g, extra) {
         <span class="game-title">${g.title}</span>${meta}
         <span class="chev" aria-hidden="true"></span>
       </summary>
+      ${cwHtml}
       <div class="game-pitch">${pitchHtml(g.pitch)}</div>
     </details>`;
 }
@@ -1095,8 +1159,9 @@ function renderSchedule() {
       daysHtml += `<div class="day-notice">${dayData.notice}</div>`;
     }
     blocks.forEach(block => {
-      daysHtml += `<div class="time-block">`;
-      daysHtml += `<div class="time-header">${block.time}</div>`;
+      const special = block.special || "";
+      daysHtml += `<div class="time-block${special ? " late-night" : ""}">`;
+      daysHtml += `<div class="time-header">${special ? `<span class="late-night-label">${special}</span>` : ""}${block.time}</div>`;
       if (block.sessions.length === 0) {
         daysHtml += `<div class="open-slot">Open — ask at the desk</div>`;
       } else {
